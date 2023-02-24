@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask Show Image</title>
+</head>
+<body>
+    <input type="file" id="selectFiles" onchange="dealSelectFiles()" multiple webkitdirectory>
+    <canvas id="myCanvas" width=2550 height=2550></canvas>
+    <script type="text/javascript">
+        var imgPosX = 0;
+        var imgWidth = 150;
+        function dealSelectFiles(){
+            var selectFiles = document.getElementById("selectFiles").files;
+  
+            for(var file of selectFiles){
+                console.log(file.webkitRelativePath);
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onloadend = function(){
+                    var img = new Image();
+                    img.src = this.result;  
+                    img.onload = function(){
+                        var myCanvas = document.getElementById("myCanvas");
+                        var cxt = myCanvas.getContext('2d');
+                        cxt.drawImage(img, imgPosX, 0);
+                        imgPosX += imgWidth;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
